@@ -27,21 +27,17 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId }) => {
     queryKey: ["user", userId],
     queryFn: () => getUserById(userId),
     retry: (failureCount, error) => {
-      return error.message !== "Not found";
+      return (
+        (failureCount < 1 && error.message === "Internal Server Error") ||
+        error.message === "Service Unavailable"
+      ); // Retry only twice for 500 or 503 errors
     },
   });
 
-  if (error) {
-    error.message === "Not found" && notFound();
-    return (
-      <Center>
-        <Alert status='error' width='lg'>
-          <AlertIcon />
-          Error: {(error as Error).message}
-        </Alert>
-      </Center>
-    );
+  if (error?.message === "Not found") {
+     notFound();
   }
+  
 
   return (
     <>
@@ -53,12 +49,22 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId }) => {
           User Profile
         </Text>
       </Header>
+      {error && (
+        (
+      <Center>
+        <Alert status='error' width='lg'>
+          <AlertIcon />
+          Error: {(error as Error).message}
+        </Alert>
+      </Center>
+    )
+      )}
       {isLoading && (
         <Center>
           <Spinner size='xl' />
         </Center>
       )}
-      {!isLoading && (
+      {!isLoading && !error && (
         <Center>
           <Box
             borderWidth='1px'
