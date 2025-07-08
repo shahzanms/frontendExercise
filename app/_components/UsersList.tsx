@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UsersResponse } from "../_models/user.model";
 import { getUsers } from "../_lib/data-service";
 import {
@@ -26,6 +26,12 @@ const UsersList: React.FC = () => {
   const { data, error, isLoading } = useQuery<UsersResponse, Error>({
     queryKey: ["users", currentPage],
     queryFn: () => getUsers(currentPage),
+    retry: (failureCount, error) => {
+      return (
+        (failureCount < 1 && error.message === "Internal Server Error") ||
+        error.message === "Service Unavailable"
+      ); // Retry only twice for 500 or 503 errors
+    },
   });
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -37,7 +43,7 @@ const UsersList: React.FC = () => {
         <Center>
           <Box p={4}>
             <Text fontSize='lg' fontWeight='bold'>
-              Users
+              Users1
             </Text>
           </Box>
         </Center>
