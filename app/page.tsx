@@ -17,8 +17,7 @@ const HomePage: React.FC<HomePageProps> = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery<UsersResponse, Error>({
     queryKey: ["users", 1],
-    queryFn: () => getUsers(1),
-    retry: 1,
+    queryFn: () => getUsers(1)
   });
 
   return (
