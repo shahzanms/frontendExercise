@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { UsersResponse } from "../_models/user.model";
 import { getUsers } from "../_lib/data-service";
 import {
@@ -43,7 +43,7 @@ const UsersList: React.FC = () => {
         <Center>
           <Box p={4}>
             <Text fontSize='lg' fontWeight='bold'>
-              Users1
+              Users
             </Text>
           </Box>
         </Center>
