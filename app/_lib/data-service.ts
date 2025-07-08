@@ -18,7 +18,6 @@ export const getUsers = async (page: number): Promise<UsersResponse> => {
     }
   }
   const data = await response.json();
-  console.log("DATA+++",data)
   return data;
 };
 
