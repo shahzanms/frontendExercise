@@ -5,7 +5,7 @@ const API_KEY = process.env.API_KEY;
 export const getUsers = async (page: number): Promise<UsersResponse> => {
   const response = await fetch(`https://reqres.in/api/users?page=${page}`, {
     headers: {
-      "x-api-key": "API_KEY"!,
+      "x-api-key": API_KEY!,
       Accept: "application/json",
     },
   });
@@ -18,6 +18,7 @@ export const getUsers = async (page: number): Promise<UsersResponse> => {
     }
   }
   const data = await response.json();
+  console.log("DATA+++",data)
   return data;
 };
 
