@@ -1,6 +1,6 @@
 import { UserResponse, UsersResponse } from "../_models/user.model";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = 'reqres-free-v1';
 
 export const getUsers = async (page: number): Promise<UsersResponse> => {
   const response = await fetch(`https://reqres.in/api/users?page=${page}`, {
